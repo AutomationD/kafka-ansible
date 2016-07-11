@@ -1,0 +1,89 @@
+---
+
+- name: Install JRE
+  package:
+    name: "{{ jre_package }}"
+
+- name: Install Supervisor
+  package:
+    name: supervisor
+
+- name: Start supervisor service
+  service:
+    name: supervisor
+    state: started
+
+
+- name: Add group
+  group:
+    name: "{{ kafka_group }}"
+    system: yes
+
+- name: Add user
+  user:
+    name: "{{ kafka_user }}"
+    group: "{{ kafka_group }}"
+    shell: /sbin/nologin
+    system: yes
+
+- name: Download the tarball
+  get_url:
+    url: "http://{{ apache_mirror }}/kafka/{{ kafka_version }}/kafka_{{ scala_version }}-{{ kafka_version }}.tgz"
+    dest: "/opt/kafka_{{ scala_version }}-{{ kafka_version }}.tgz"
+    timeout: 30
+
+- name: Extract the tarball
+  unarchive:
+    src: "/opt/kafka_{{ scala_version }}-{{ kafka_version }}.tgz"
+    dest: /opt/
+    copy: no
+    creates: "/opt/kafka_{{ scala_version }}-{{ kafka_version }}"
+
+- name: Symlink install directory
+  file:
+    src: "/opt/kafka_{{ scala_version }}-{{ kafka_version }}"
+    path: /opt/kafka
+    state: link
+
+- name: Set permissions to Kafka folder
+  file:
+    path: /opt/kafka/
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_group }}"
+    recurse: yes
+
+- name: Create /kafka/data directory
+  file:
+    path: /kafka/data
+    state: directory
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_group }}"
+  when: data_disks_devices is not defined or not data_disks_devices or data_disks_devices|length <= 0
+
+- name: Create /disk/{0..n}/kafka/data directories
+  file:
+    path: "/disk/{{ item.0 + 1 }}/kafka/data"
+    state: directory
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_group }}"
+  with_indexed_items: "{{ data_disks_devices }}"
+  when: data_disks_devices is defined and data_disks_devices
+
+- name: Create Kafka log directory
+  file:
+    path: "{{ kafka_log_dir }}"
+    state: directory
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_group }}"
+
+- name: Create Kafka conf directory
+  file:
+    path: "{{ kafka_config_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 755
+
+
+- meta: flush_handlers
+

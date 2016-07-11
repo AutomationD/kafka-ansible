@@ -1,0 +1,40 @@
+---
+
+- name: Install Kafka supervisor config
+  template:
+    src: supervisord.conf.j2
+    dest: /etc/supervisor/supervisord.conf
+    mode: 0644
+  notify:
+    - reload supervisor
+
+- meta: flush_handlers
+
+- name: create log4j.properties
+  template:
+    dest: "{{ kafka_config_dir }}/log4j.properties"
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_group }}"
+    mode: 0644
+    src: log4j.properties.j2
+  notify:
+    - restart kafka
+
+- name: create server.properties
+  template:
+    dest: "{{ kafka_config_dir }}/server.properties"
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_group }}"
+    mode: 0640
+    src: server.properties.j2
+  notify:
+    - restart kafka
+
+- meta: flush_handlers
+
+- name: Make sure Kafka is running
+  supervisorctl:
+    name: kafka
+    state: started
+
+

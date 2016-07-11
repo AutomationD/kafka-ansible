@@ -1,0 +1,49 @@
+---
+
+apache_mirror: mirror.symnds.com/software/Apache
+kafka_hosts: "{{ansible_fqdn}}:9092"
+kafka_version: 0.10.0.0
+scala_version: 2.11
+jre_package: openjdk-8-jre-headless
+docker: False
+
+run_mode: Deploy
+skip_install: False
+kafka_user: kafka
+kafka_group: kafka
+kafka_parent_dir: /opt
+kafka_dir: "{{ kafka_parent_dir }}/kafka"
+kafka_log_dir: "{{ kafka_dir }}/log"
+kafka_config_dir: "{{ kafka_dir }}/config"
+
+
+kafka_id: 1
+#data_disks_devices: ['xvde']
+
+kafka_num_network_threads: 2
+kafka_num_io_threads: 2
+kafka_num_partitions: 2
+kafka_port: 9092
+kafka_socket_send_buffer_bytes: 1048576
+kafka_socket_receive_buffer_bytes: 1048576
+kafka_socket_request_max_bytes: 104857600
+kafka_log_flush_interval_messages: 10000
+kafka_log_flush_interval_ms: 1000
+kafka_log_retention_bytes: 104857600  #100 M
+kafka_log_retention_hours: 24
+kafka_log_segment_bytes: "{{ kafka_log_retention_bytes }}"
+kafka_log_cleanup_interval_mins: 1
+kafka_heap_opts: "-Xmx{{ (ansible_memtotal_mb / 2) | int }}m -Xms{{ (ansible_memtotal_mb / 2) | int }}m"
+monasca_wait_for_period: 30
+monasca_log_level: WARN
+zookeeper_client_port: 2181
+zookeeper_connection_timeout_ms: 1000000
+zookeper_nodes_group: zookeper_nodes
+zookeper_nodes:
+  - localhost
+
+verify: True
+
+
+
+
