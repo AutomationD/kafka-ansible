@@ -39,7 +39,7 @@ monasca_wait_for_period: 30
 monasca_log_level: WARN
 zookeeper_client_port: 2181
 zookeeper_connection_timeout_ms: 1000000
-zookeper_nodes_group: zookeper_nodes
+zookeper_nodes_group: zookeper-nodes
 zookeper_nodes:
   - localhost
 
