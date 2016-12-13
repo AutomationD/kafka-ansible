@@ -20,8 +20,7 @@ logfile_backups=10
 
 [program:kafka]
 user={{ kafka_user }}
-command={{ kafka_dir }}/bin/kafka-server-start.sh {{ kafka_config_dir }}/server.properties
-autostart=true
+command=env JMX_PORT=9999 {{ kafka_dir }}/bin/kafka-server-start.sh {{ kafka_config_dir }}/server.properties
 autostart=true
 autorestart=true
 redirect_stderr=true
