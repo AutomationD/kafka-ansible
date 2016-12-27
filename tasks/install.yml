@@ -36,6 +36,8 @@
   unarchive:
     src: "/opt/kafka_{{ scala_version }}-{{ kafka_version }}.tgz"
     dest: /opt/
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_group }}"
     copy: no
     creates: "/opt/kafka_{{ scala_version }}-{{ kafka_version }}"
 
@@ -44,13 +46,6 @@
     src: "/opt/kafka_{{ scala_version }}-{{ kafka_version }}"
     path: /opt/kafka
     state: link
-
-- name: Set permissions to Kafka folder
-  file:
-    path: /opt/kafka/
-    owner: "{{ kafka_user }}"
-    group: "{{ kafka_group }}"
-    recurse: yes
 
 - name: Create /kafka/data directory
   file:
@@ -80,8 +75,8 @@
   file:
     path: "{{ kafka_config_dir }}"
     state: directory
-    owner: root
-    group: root
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_group }}"
     mode: 755
 
 
