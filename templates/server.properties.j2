@@ -110,6 +110,13 @@ host.name={{ hostvars[inventory_hostname]['ansible_host'] }}
     delete.topic.enable = true
     {% endif %}
 
+    {% if kafka_auto_create_topic_enable %}
+    auto.create.topics.enable=true
+    {% else %}
+    auto.create.topics.enable=false
+    {% endif %}
+
+
     ############################# Zookeeper #############################
 
     # Zookeeper connection string (see zookeeper docs for details).

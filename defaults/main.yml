@@ -30,6 +30,7 @@ kafka_socket_request_max_bytes: 104857600
 kafka_log_flush_interval_messages: 10000
 kafka_log_flush_interval_ms: 1000
 kafka_delete_topics_enable: true
+kafka_auto_create_topic_enable: true
 kafka_log_retention_bytes: 104857600  #100 M
 kafka_log_retention_hours: 24
 kafka_log_segment_bytes: "{{ kafka_log_retention_bytes }}"
