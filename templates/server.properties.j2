@@ -57,7 +57,7 @@ host.name={{ hostvars[inventory_hostname]['ansible_host'] }}
     ############################# Log Basics #############################
 
     # A comma seperated list of directories under which to store log files
-    log.dirs={% for disk in ansible_mounts if disk.mount | match("/disk/*") %}{{ disk.mount }}/kafka/data{% if not loop.last %},{% endif %}{% else %}{{ kafka_log_dir }}{%- endfor %}
+    log.dirs={% for disk in ansible_mounts if disk.mount | match("/disk/*") %}{{ disk.mount }}/kafka/data{% if not loop.last %},{% endif %}{% else %}{{ kafka_data_dir }}{%- endfor %}
 
     # The default number of log partitions per topic. More partitions allow greater
     # parallelism for consumption, but this will also result in more files across

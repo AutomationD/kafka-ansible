@@ -13,7 +13,7 @@ kafka_user: kafka
 kafka_group: kafka
 kafka_parent_dir: /opt
 kafka_dir: "{{ kafka_parent_dir }}/kafka"
-kafka_log_dir: "{{ kafka_dir }}/log"
+kafka_data_dir: "{{ kafka_dir }}/data"
 kafka_config_dir: "{{ kafka_dir }}/config"
 
 
