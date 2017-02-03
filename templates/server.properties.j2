@@ -116,6 +116,7 @@ host.name={{ hostvars[inventory_hostname]['ansible_host'] }}
     auto.create.topics.enable=false
     {% endif %}
 
+    log.message.timestamp.type={{ kafka_log_message_timestamp_type }}
 
     ############################# Zookeeper #############################
 
