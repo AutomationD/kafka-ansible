@@ -37,6 +37,7 @@ kafka_log_segment_bytes: "{{ kafka_log_retention_bytes }}"
 kafka_log_cleanup_interval_mins: 1
 kafka_log_message_timestamp_type: CreateTime
 kafka_heap_opts: "-Xmx{{ (ansible_memtotal_mb / 2) | int }}m -Xms{{ (ansible_memtotal_mb / 2) | int }}m"
+kafka_java_opts:
 monasca_wait_for_period: 30
 monasca_log_level: WARN
 zookeeper_client_port: 2181
