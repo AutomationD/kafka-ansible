@@ -53,7 +53,7 @@
     state: directory
     owner: "{{ kafka_user }}"
     group: "{{ kafka_group }}"
-  with_indexed_items: "{{ data_disks_devices }}"
+  with_indexed_items: "{{ data_disks_devices | default([]) }}"
   when: data_disks_devices is defined
 
 - name: Create Kafka data directory
