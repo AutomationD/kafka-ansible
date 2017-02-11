@@ -54,7 +54,7 @@
     owner: "{{ kafka_user }}"
     group: "{{ kafka_group }}"
   with_indexed_items: "{{ data_disks_devices }}"
-  when: data_disks_devices is defined and data_disks_devices
+  when: data_disks_devices is defined
 
 - name: Create Kafka data directory
   file:
