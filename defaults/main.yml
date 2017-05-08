@@ -43,7 +43,7 @@ monasca_wait_for_period: 30
 monasca_log_level: WARN
 zookeeper_client_port: 2181
 
-kafka_zookeeper_session_timeout_ms: 1000000
+kafka_zookeeper_session_timeout_ms: 6000
 kafka_zookeeper_connection_timeout_ms: "{{ kafka_zookeeper_session_timeout_ms }}"
 zookeper_nodes_group: zookeper-nodes
 zookeper_nodes:
