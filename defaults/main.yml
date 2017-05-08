@@ -1,7 +1,6 @@
 ---
-
-apache_mirror: mirror.symnds.com/software/Apache
-kafka_hosts: "{{ansible_fqdn}}:9092"
+apache_mirror: www-us.apache.org/dist
+kafka_hosts: "{{ ansible_fqdn }}:9092"
 kafka_version: 0.10.0.0
 scala_version: 2.11
 jre_package: openjdk-8-jre-headless
@@ -21,7 +20,7 @@ kafka_id: 1
 #data_disks_devices: ['xvde']
 
 kafka_num_network_threads: 2
-kafka_num_io_threads: 2
+kafka_num_io_threads: 8
 kafka_num_partitions: 2
 kafka_port: 9092
 kafka_socket_send_buffer_bytes: 1048576
@@ -32,8 +31,9 @@ kafka_log_flush_interval_ms: 1000
 kafka_delete_topics_enable: true
 kafka_auto_create_topic_enable: true
 kafka_log_retention_bytes: 104857600  #100 M
-kafka_log_retention_hours: 24
-kafka_log_segment_bytes: "{{ kafka_log_retention_bytes }}"
+kafka_log_retention_hours: 168
+kafka_log_segment_bytes: 536870912
+kafka_log_retention_check_interval_ms: 60000
 kafka_log_cleanup_interval_mins: 1
 kafka_log_message_timestamp_type: CreateTime
 kafka_heap_opts: "-Xmx{{ (ansible_memtotal_mb / 2) | int }}m -Xms{{ (ansible_memtotal_mb / 2) | int }}m"
@@ -42,7 +42,9 @@ kafka_zookeeper_connect: "{% for server in groups[zookeper_nodes_group] %}{{ hos
 monasca_wait_for_period: 30
 monasca_log_level: WARN
 zookeeper_client_port: 2181
-zookeeper_connection_timeout_ms: 1000000
+
+kafka_zookeeper_session_timeout_ms: 1000000
+kafka_zookeeper_connection_timeout_ms: "{{ kafka_zookeeper_session_timeout_ms }}"
 zookeper_nodes_group: zookeper-nodes
 zookeper_nodes:
   - localhost
