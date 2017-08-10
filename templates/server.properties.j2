@@ -104,7 +104,9 @@ log.retention.check.interval.ms={{ kafka_log_retention_check_interval_ms }}
 
 # By default the log cleaner is disabled and the log retention policy will default to just delete segments after their retention expires.
 # If log.cleaner.enable=true is set the cleaner will be enabled and individual logs can then be marked for log compaction.
-log.cleaner.enable=false
+{% if kafka_log_cleaner_enable $}
+log.cleaner.enable = true
+{% endif %}
 
 {% if kafka_delete_topics_enable %}
 delete.topic.enable = true

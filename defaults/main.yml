@@ -36,6 +36,8 @@ kafka_log_segment_bytes: 536870912
 kafka_log_retention_check_interval_ms: 60000
 kafka_log_cleanup_interval_mins: 1
 kafka_log_message_timestamp_type: CreateTime
+kafka_log_cleaner_enable: false
+
 kafka_heap_opts: "-Xmx{{ (ansible_memtotal_mb / 2) | int }}m -Xms{{ (ansible_memtotal_mb / 2) | int }}m"
 kafka_java_opts:
 kafka_zookeeper_connect: "{% for server in groups[zookeper_nodes_group] %}{{ hostvars[server]['inventory_hostname'] }}:{{ zookeeper_client_port }}{% if not loop.last %},{% endif %}{% endfor %}"
